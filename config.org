@@ -307,6 +307,17 @@ https://github.com/rakanalh/emacs-dashboard
 * development
 ** general
 *** editing
+**** cursors
+
+Use iedit for multiple cursor editing.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+(use-package iedit)
+
+#+END_SRC
+
+
 **** undo
 
 Undo tree
@@ -380,7 +391,9 @@ Use company for auto completion.
 
 #+END_SRC
 
-*** projectile
+*** projects
+
+Use Projectile for project management.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
@@ -400,6 +413,14 @@ Use company for auto completion.
   :config
   (projectile-global-mode)
   :bind)
+
+#+END_SRC
+
+Use neotree for visual file navigation.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+(use-package neotree)
 
 #+END_SRC
 
@@ -448,7 +469,14 @@ Use company for auto completion.
 (use-package smartparens
   :defer 1
   :diminish
-  :config (smartparens-global-mode 1))
+  :config 
+  (smartparens-global-mode 1)
+  (setq
+   smartparens-strict-mode t
+   sp-autoinsert-if-followed-by-word t
+   sp-autoskip-closing-pair 'always
+   ;;sp-base-key-bindings 'paredit
+   sp-hybrid-kill-entire-symbol nil))
 
 
 (use-package rainbow-delimiters
