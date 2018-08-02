@@ -171,10 +171,11 @@ Avoid appending UI customizations to =init.el=.
 #+END_SRC
 
 ** look and feel
-
-Hack and Nord theme.
+*** Font and theme.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
+
+(set-frame-font "Fira Code 12" nil t)
 
 (use-package nord-theme
   :config
@@ -182,7 +183,19 @@ Hack and Nord theme.
 
 #+END_SRC
 
-Modeline
+*** Modeline
+
+Add line, column, and file size to modeline.
+
+#+BEGIN_SRC 
+
+(line-number-mode t)
+(column-number-mode t)
+(size-indication-mode t)
+
+#+END_SRC
+
+Use telephone line for the modeline.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
