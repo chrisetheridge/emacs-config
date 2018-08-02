@@ -75,6 +75,35 @@ Default settings for Emacs.
 
 #+END_SRC
 
+Disable that annoying bell sound.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+(setq ring-bell-function (lambda () (message "*beep*")))
+
+#+END_SRC
+
+** saving / backups
+
+Use saveplace to save place in file after closing.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+(use-package saveplace
+  :config
+  (setq save-place-file (concat user-emacs-directory "places")))
+
+#+END_SRC
+
+Clean whitespace upon saving, and disable backups.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+(setq-default backup-inhibited t)
+(add-hook 'before-save-hook 'delete-trailing-whitespace) 
+
+#+END_SRC
+
 ** env path
 
 #+BEGIN_SRC emacs-lisp :tangle yes
