@@ -31,6 +31,16 @@ Always =:ensure= packages.
 
 #+END_SRC
 
+Some package authors like to break things with new releases.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+(setq package-pinned-packages
+      '(
+        (cider            . "melpa-stable")
+        ))
+
+#+END_SRC
 
 * base
 ** general
