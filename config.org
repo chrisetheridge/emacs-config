@@ -2,15 +2,13 @@
 * Init
 ** Package management
 
-Use =use-package= for package management.
+   Use =use-package= for package management.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 
-(setq package-archives '(("gnu" . "https:/
-  :delight/elpa.gnu.org/packages/")
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
              ("melpa-stable" . "https://stable.melpa.org/packages/")
-             ("melpa" .
-              normal-top-level() "https://melpa.org/packages/")
+             ("melpa" ."https://melpa.org/packages/")
              ("org" . "https://orgmode.org/elpa/")))
 
 (unless (package-installed-p 'use-package)
@@ -21,45 +19,45 @@ Use =use-package= for package management.
 (use-package diminish :ensure t)
 (use-package use-package-ensure-system-package :ensure t)
 
-#+END_SRC
+   #+END_SRC
 
-Always =:ensure= packages.
+   Always =:ensure= packages.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 
 (setq use-package-always-ensure t)
 
-#+END_SRC
+   #+END_SRC
 
-Some package authors like to break things with new releases.
+   Some package authors like to break things with new releases.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 
 (setq package-pinned-packages
       '(
         (cider            . "melpa-stable")
         ))
 
-#+END_SRC
+   #+END_SRC
 
 
 * Base
 ** General
 
-I work in UTF-8.
+   I work in UTF-8.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
-#+END_SRC
+   #+END_SRC
 
-Default settings for Emacs.
+   Default settings for Emacs.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 (setq
  ad-redefinition-action 'accept                   ; Silence warnings for redefinition
  cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
@@ -70,7 +68,9 @@ Default settings for Emacs.
  initial-scratch-message ""                       ; Empty the initial *scratch* buffer
  load-prefer-newer t                              ; Prefers the newest version of a file
  scroll-margin 8 ;  smooth scroll
- scroll-conservatively 100
+ redisplay-dont-pause t
+ scroll-preserve-screen-position 1
+ scroll-conservatively 1000
  scroll-step 1
  select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
  tab-width 4                                      ; Set width for tabs
@@ -87,74 +87,79 @@ Default settings for Emacs.
 (display-time-mode 1)                             ; Enable time in the mode-line
 (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
 (show-paren-mode 1)                               ; Show the parent
-(delete-selection-mode)                           ; Replace selection on paste
+(delete-selection-mode 1)                           ; Replace selection on paste
 (global-subword-mode 1) ; Move through camel case words
+(electric-pair-mode 1) ; match parenthesis
 
-#+END_SRC
 
-Disable that annoying bell sound.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+END_SRC
+
+   Disable that annoying bell sound.
+
+   #+BEGIN_SRC emacs-lisp :tangle yes
 
 (setq ring-bell-function (lambda () (message "*beep*")))
 
-#+END_SRC
+   #+END_SRC
 
 ** Saving / backups
 
-Use saveplace to save place in file after closing.
+   Use saveplace to save place in file after closing.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package saveplace
   :config
   (setq save-place-file (concat user-emacs-directory "places")))
 
-#+END_SRC
+   #+END_SRC
 
-Clean whitespace upon saving, and disable backups.
+   Clean whitespace upon saving, and disable backups.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 
 (setq-default backup-inhibited t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-#+END_SRC
+   #+END_SRC
 
 ** Environment
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 
 (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
 (add-to-list 'exec-path "/usr/local/bin")
 
-#+END_SRC
+   #+END_SRC
 
 ** Emacs
 
-Better M-x menu.
+   Better M-x menu.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package smex)
 
-#+END_SRC
+   #+END_SRC
 
-Better buffer navigation and manipulation.
+   Better buffer navigation and manipulation. Replace default buffer UI with ibuffer.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package ibuffer
   :defer t
-  :bind ("C-x C-b" . ibuffer))
+  :bind ("C-x C-b" . ibuffer)
+  :custom
+  (defalias 'list-buffers 'ibuffer))
 
-#+END_SRC
+   #+END_SRC
 
 ** Git
 
-Magit for git management.
+   Magit for git management.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package magit
   :defer t
@@ -163,34 +168,54 @@ Magit for git management.
   (magit-autro-revert-mode)
   (auto-revert-mode))
 
-#+END_SRC
+   #+END_SRC
 
-Show Git changes in the fringe of Emacs.
-https://github.com/syohex/emacs-git-gutter-fringe
+   Show Git changes in the fringe of Emacs.
+   https://github.com/syohex/emacs-git-gutter-fringe
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package git-gutter-fringe :defer t)
 
-#+END_SRC
+   #+END_SRC
 
 ** Customizations
-Avoid appending UI customizations to =init.el=.
+   Avoid appending UI customizations to =init.el=.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 
 (setq-default custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file t))
 
-#+END_SRC
+   #+END_SRC
 
 
 * UI customizations
 ** Look and feel
-*** Font and theme.
+*** Tabs
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    Use tabbar to enable a tab-like interface.
+
+    #+BEGIN_SRC emacs-lisp :tangle yes
+
+(use-package tabbar
+  :ensure t
+  :bind (("C-M-<left>" . tabbar-backward-tab)
+         ("C-M-<right>" . tabbar-forward-tab))
+  :config (tabbar-mode 1))
+
+(use-package tabbar-ruler
+  :ensure t
+  :after (tabbar)
+  :config (progn
+            (setq tabbar-ruler-global-tabbar t)))
+
+    #+END_SRC
+
+*** Font and theme
+
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (set-frame-font "Fira Code 12" nil t)
 
@@ -198,35 +223,35 @@ Avoid appending UI customizations to =init.el=.
   :config
   (setq nord-comment-brightness 15))
 
-#+END_SRC
+    #+END_SRC
 
 *** Modeline
 
-Add line, column, and file size to modeline.
+    Add line, column, and file size to modeline.
 
-#+BEGIN_SRC
+    #+BEGIN_SRC
 
 (line-number-mode t)
 (column-number-mode t)
 (size-indication-mode t)
 
-#+END_SRC
+    #+END_SRC
 
-Use telephone line for the modeline.
+    Use telephone line for the modeline.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package telephone-line
   :custom
   (telephone-line-mode 1))
 
-#+END_SRC
+    #+END_SRC
 
 *** Miscellaneous
 
-Turn off GUI elements.
+    Turn off GUI elements.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (when window-system
   (menu-bar-mode -1)                              ; Disable the menu bar
@@ -234,25 +259,25 @@ Turn off GUI elements.
   (tool-bar-mode -1)                              ; Disable the tool bar
   (tooltip-mode -1))                              ; Disable the tooltips
 
-#+END_SRC
+    #+END_SRC
 
-Smooth scrolling.
+    Smooth scrolling.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package smooth-scrolling
   :config
   (smooth-scrolling-mode 1)
-  (setq smooth-scroll-margin 1))
+  (setq smooth-scroll-margin 18))
 
-#+END_SRC
+    #+END_SRC
 
 ** Heads up
 
-Ivy, Swiper, and Counsel for command completion UI (like Helm)
-https://github.com/abo-abo/swiper
+   Ivy, Swiper, and Counsel for command completion UI (like Helm)
+   https://github.com/abo-abo/swiper
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package counsel
   :after ivy
@@ -288,14 +313,14 @@ https://github.com/abo-abo/swiper
   :bind (("C-s" . swiper)
          ("C-r" . swiper)))
 
-#+END_SRC
+   #+END_SRC
 
 ** Start page
 
-Use a dashboard-like start page.
-https://github.com/rakanalh/emacs-dashboard
+   Use a dashboard-like start page.
+   https://github.com/rakanalh/emacs-dashboard
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+   #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package dashboard
   :preface
@@ -318,7 +343,7 @@ https://github.com/rakanalh/emacs-dashboard
               (registers . 5)))
   (dashboard-setup-startup-hook))
 
-#+END_SRC
+   #+END_SRC
 
 
 * Development
@@ -326,46 +351,54 @@ https://github.com/rakanalh/emacs-dashboard
 *** Editing
 **** Cursors
 
-Use iedit for multiple cursor editing.
+     Use iedit for multiple cursor editing.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+     #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package iedit)
 
-#+END_SRC
+     #+END_SRC
 
 **** Undo
 
-Undo tree
+     Undo tree
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+     #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package undo-tree
   :diminish
-  :bind ("C--" . undo-tree-redo)
-  :init (global-undo-tree-mode)
+  :bind
+  ("C--" . undo-tree-redo)
+  :init
+  :init
+  (progn
+    (global-undo-tree-mode 1)
+    (defalias 'redo 'undo-tree-redo)
+
+    (global-set-key (kbd "s-z") 'undo)
+    (global-set-key (kbd "s-Z") 'redo))
   :custom
   (undo-tree-visualizer-timestamps t)
   (undo-tree-visualizer-diff t))
 
-#+END_SRC
+     #+END_SRC
 
 **** Keybindings
 
-Which key to show keybindings
+     Which key to show keybindings
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+     #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package which-key
   :diminish
   :config (which-key-mode))
 
-#+END_SRC
+     #+END_SRC
 
 *** Text
-Aggresively indent whilst typing.
+    Aggresively indent whilst typing.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package aggressive-indent
   :delight
@@ -376,23 +409,23 @@ Aggresively indent whilst typing.
   :config
   (unbind-key "C-c C-q" aggressive-indent-mode-map))
 
-#+END_SRC
+    #+END_SRC
 
-Highlight color values as their color
+    Highlight color values as their color
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package rainbow-mode
   :defer 2
   :hook (prog-mode))
 
-#+END_SRC
+    #+END_SRC
 
 *** Auto complete
 
-Use company for auto completion.
+    Use company for auto completion.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package company
   :defer 2
@@ -405,13 +438,13 @@ Use company for auto completion.
   (company-tooltip-align-annotations 't)
   (global-company-mode t))
 
-#+END_SRC
+    #+END_SRC
 
 *** Project management
 
-Use Projectile for project management.
+    Use Projectile for project management.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package ag)
 
@@ -453,31 +486,31 @@ Use Projectile for project management.
   (projectile-global-mode)
   :bind)
 
-#+END_SRC
+    #+END_SRC
 
-Use neotree for visual file navigation.
+    Use neotree for visual file navigation.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package neotree)
 
-#+END_SRC
+    #+END_SRC
 
 *** Linting
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package flycheck
   :defer 2
   :diminish
   :init (global-flycheck-mode))
 
-#+END_SRC
+    #+END_SRC
 
 *** Emacs
 **** Package management
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+     #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package paradox
   :defer 2
@@ -490,14 +523,14 @@ Use neotree for visual file navigation.
   (paradox-enable)
   (remove-hook 'paradox-after-execute-functions #'paradox--report-buffer-print))
 
-#+END_SRC
+     #+END_SRC
 
 ** Languages
 *** Lisps
 
-Paredit and paxedit for sexp editing.
+    Paredit and paxedit for sexp editing.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package paxedit
   :delight
@@ -522,32 +555,32 @@ Paredit and paxedit for sexp editing.
 		("M-[" . paredit-wrap-square)
 		("M-{" . paredit-wrap-curly)))
 
-#+END_SRC
+    #+END_SRC
 
-Show different colors between delimiter levels.
+    Show different colors between delimiter levels.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package rainbow-delimiters
   :defer 1
   :hook (prog-mode . rainbow-delimiters-mode))
 
-#+END_SRC
+    #+END_SRC
 
 
 *** Emacs lisp
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package elisp-mode
   :ensure nil
   :delight emacs-lisp-mode "ξ")
 
-#+END_SRC
+    #+END_SRC
 
 *** Clojure
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package clojure-mode
   :mode "\\.clj\\'"
@@ -561,12 +594,12 @@ Show different colors between delimiter levels.
   :bind
   ("C-c C-q" . cider-quit))
 
-#+END_SRC
+    #+END_SRC
 
-Add an IDE-like exeperience to Emacs, primarily interaction a Clojure REPL.
-https://github.com/clojure-emacs/cider
+    Add an IDE-like exeperience to Emacs, primarily interaction a Clojure REPL.
+    https://github.com/clojure-emacs/cider
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package cider
   :pin melpa-stable
@@ -595,12 +628,12 @@ https://github.com/clojure-emacs/cider
   (eval-after-load 'flycheck '(flycheck-clojure-setup)
            )
 
-#+END_SRC
+    #+END_SRC
 
-Refactor Clojure code.
-https://github.com/clojure-emacs/clj-refactor.el
+    Refactor Clojure code.
+    https://github.com/clojure-emacs/clj-refactor.el
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package clj-refactor
   :after (clojure-mode yasnippet)
@@ -610,28 +643,28 @@ https://github.com/clojure-emacs/clj-refactor.el
   (clj-refactor-mode . yas-minor-mode)
   (clojure-mode . clj-refactor-mode))
 
-#+END_SRC
+    #+END_SRC
 
-Use flycheck-clojure for linting.
+    Use flycheck-clojure for linting.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package flycheck-clojure
   :defer t)
 
-#+END_SRC
+    #+END_SRC
 
 *** clojure: unsorted
 
-#+BEGIN_SRC emacs-lisp tangle :yes
+    #+BEGIN_SRC emacs-lisp tangle :yes
 
 
 
-#+END_SRC
+    #+END_SRC
 
 *** css / html
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package css-mode
   :custom (css-indent-offset 2))
@@ -646,11 +679,11 @@ Use flycheck-clojure for linting.
 
 (use-package scss-mode :mode "\\.scss\\'")
 
-#+END_SRC
+    #+END_SRC
 
 *** markdown
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package markdown-mode
   :delight markdown-mode "μ"
@@ -661,18 +694,18 @@ Use flycheck-clojure for linting.
          "\\.markdown\\'"
          "\\.md\\'"))
 
-#+END_SRC
+    #+END_SRC
 
 
 * Meta
 ** general
 *** compile on change
 
-Define a function that asynchrously compiles the config.org file,
-into the config file that Emacs uses.
-Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec91103524761b9e6bd66811121106db1639/config.org
+    Define a function that asynchrously compiles the config.org file,
+    into the config file that Emacs uses.
+    Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec91103524761b9e6bd66811121106db1639/config.org
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package async)
 
@@ -716,11 +749,11 @@ Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec9
                          ',init-tangle-start-time)))
        (message "ERROR: %s as tangle failed." ,org-file))))))
 
-#+END_SRC
+    #+END_SRC
 
 *** org setup
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package org
   :init
@@ -747,34 +780,34 @@ Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec9
 
 (use-package org-indent :after org :ensure nil :diminish)
 
-#+END_SRC
+    #+END_SRC
 
-package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-("melpa-stable" . "https://stable.melpa.org/packages/")
-("melpa" . "https://melpa.org/packages/")
-("org" . "https://orgmode.org/elpa/")))
+    package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+    ("melpa-stable" . "https://stable.melpa.org/packages/")
+    ("melpa" . "https://melpa.org/packages/")
+    ("org" . "https://orgmode.org/elpa/")))
 
-(unless (package-installed-p 'use-package)
-(package-refresh-contents)
-(package-install 'use-package))
+    (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
 
-(use-package delight :ensure t)
-(use-package diminish :ensure t)
-(use-package use-package-ensure-system-package :ensure t)
+    (use-package delight :ensure t)
+    (use-package diminish :ensure t)
+    (use-package use-package-ensure-system-package :ensure t)
 
-#+END_SRC
+    #+END_SRC
 
-Always =:ensure= packages.
+    Always =:ensure= packages.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (setq use-package-always-ensure t)
 
-#+END_SRC
+    #+END_SRC
 
-Fancier org bullets.
+    Fancier org bullets.
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package org-bullets
   :defer t
@@ -783,4 +816,4 @@ Fancier org bullets.
             (lambda ()
               (org-bullets-mode t))))
 
-#+END_SRC
+    #+END_SRC
