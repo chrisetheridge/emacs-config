@@ -474,8 +474,8 @@ Use neotree for visual file navigation.
 
 #+END_SRC
 
-*** emacs
-**** package manager
+*** Emacs
+**** Package management
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
@@ -492,31 +492,41 @@ Use neotree for visual file navigation.
 
 #+END_SRC
 
+** Languages
+*** Lisps
+
+Paredit and paxedit for sexp editing.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package paxedit
   :delight
-  :hook ((org-mode
-	  emacs-lisp-mode
-	  clojure-mode
-	  cider-repl-mode) . paxedit-mode)
+  :hook
+  ((org-mode
+    emacs-lisp-mode
+    clojure-mode
+    cider-repl-mode) . paxedit-mode)
   :bind (:map paxedit-mode-map
-	      ("M-t" . 'paxedit-transpose-forward)
-	      ("C-M-t" . 'paxedit-transpose-backward)))
+          ("M-t" . 'paxedit-transpose-forward)
+          ("C-M-t" . 'paxedit-transpose-backward)))
 
-(use-package smartparens
-  :defer 1
-  :diminish
-  :config 
-  (smartparens-global-mode 1)
-  (setq
-   smartparens-strict-mode t
-   sp-autoinsert-if-followed-by-word t
-   sp-autoskip-closing-pair 'always
-   ;;sp-base-key-bindings 'paredit
-   sp-hybrid-kill-entire-symbol nil))
 
+(use-package paredit
+  :delight
+  :hook ((org-mode
+	    emacs-lisp-mode
+	    clojure-mode
+	    cider-repl-mode
+	    racket-mode) . paredit-mode)
+  :bind (:map paredit-mode-map
+		("M-[" . paredit-wrap-square)
+		("M-{" . paredit-wrap-curly)))
+
+#+END_SRC
+
+Show different colors between delimiter levels.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
 
 (use-package rainbow-delimiters
   :defer 1
@@ -599,6 +609,15 @@ https://github.com/clojure-emacs/clj-refactor.el
   :hook
   (clj-refactor-mode . yas-minor-mode)
   (clojure-mode . clj-refactor-mode))
+
+#+END_SRC
+
+Use flycheck-clojure for linting.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+(use-package flycheck-clojure
+  :defer t)
 
 #+END_SRC
 
