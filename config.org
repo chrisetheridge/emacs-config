@@ -705,10 +705,14 @@ Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec9
             (org-table-recalculate-buffer-tables)))
    (after-save . my/config-tangle))
   :config
-  (setq org-src-fontify-natively t
-	org-src-tab-acts-natively t
-	org-confirm-babel-evaluate nil
-	org-edit-src-content-indentation 0))
+  (setq
+   org-src-fontify-natively t
+   org-src-tab-acts-natively t
+   org-confirm-babel-evaluate nil
+   org-edit-src-content-indentation 0
+   org-ellipsis " ... "
+   setq org-startup-truncated nil
+   setq org-export-with-smart-quotes nil))
 
 (use-package org-indent :after org :ensure nil :diminish)
 
@@ -737,3 +741,15 @@ Always =:ensure= packages.
 
 #+END_SRC
 
+Fancier org bullets.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+(use-package org-bullets
+  :defer t
+  :init
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (org-bullets-mode t))))
+
+#+END_SRC
