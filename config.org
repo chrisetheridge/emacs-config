@@ -424,9 +424,32 @@ Use Projectile for project management.
   (projectile-completion-system 'ivy)
   (projectile-enable-caching t)
   (projectile-known-projects-file (expand-file-name
-				   ".projectile-bookmarks" user-emacs-directory))
+                   ".projectile-bookmarks" user-emacs-directory))
   (projectile-mode-line '(:eval (projectile-project-name)))
   :config
+  (setq projectile-globally-ignored-directories
+        (cl-union projectile-globally-ignored-directories
+                  '(".git"
+                    ".cljs_rhino_repl"
+                    ".svn"
+                    "out"
+                    "node_modules"
+                    "resources/public/js/compiled")))
+  (setq projectile-globally-ignored-files
+        (cl-union projectile-globally-ignored-files
+                  '(".DS_Store"
+                    ".lein-repl-history"
+                    "*.gz"
+                    "*.pyc"
+                    "*.png"
+                    "*.jpg"
+                    "*.jar"
+                    "*.retry"
+                    "*.svg"
+                    "*.tar.gz"
+                    "*.tgz"
+                    "*.zip")))
+  (setq projectile-mode-line '(:eval (format " [%s] " (projectile-project-name))))
   (projectile-global-mode)
   :bind)
 
