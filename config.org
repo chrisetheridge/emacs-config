@@ -535,7 +535,7 @@ Use neotree for visual file navigation.
 
 #+END_SRC
 
-*** clojure
+*** Clojure
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
@@ -567,11 +567,23 @@ https://github.com/clojure-emacs/cider
   (cider-mode-hook . eldoc-mode)
   :config
   (setq
-   cider-use-fringe-indicators nil                   ; 
+   cider-use-fringe-indicators nil                   ;
    cider-prompt-for-symbol nil                       ; Don't prompt for symbol for cider doc
-   cider-repl-pop-to-buffer-on-connect 'display-only ;
+   cider-repl-pop-to-buffer-on-connect nil
+   cider-repl-display-in-current-window t  ; open repl buffer in current window
+   cider-show-error-buffer nil             ; don't show error buffer automatically
+   cider-auto-select-error-buffer nil      ; don't switch to error buffer on error
+   cider-save-file-on-load t               ; save file on prompt when evaling
+   cider-repl-history-file (concat user-emacs-directory "cider-history")
+   cider-repl-use-clojure-font-lock t      ; nicer repl output
+   cider-font-lock-dynamically t           ; font-lock as much as possible
+
    cider-font-lock-reader-conditionals nil           ; Disable font-locking for symbols in cljc files
-   ))
+   cider-repl-wrap-history t
+   cider-repl-history-size 3000
+   nrepl-hide-special-buffers t)
+  (eval-after-load 'flycheck '(flycheck-clojure-setup)
+           )
 
 #+END_SRC
 
