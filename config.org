@@ -69,12 +69,17 @@ Default settings for Emacs.
  inhibit-startup-screen t                         ; Disable start-up screen
  initial-scratch-message ""                       ; Empty the initial *scratch* buffer
  load-prefer-newer t                              ; Prefers the newest version of a file
- scroll-conservatively most-positive-fixnum       ; Always scroll by one line
+ scroll-margin 8 ;  smooth scroll
+ scroll-conservatively 100
+ scroll-step 1
  select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
  tab-width 4                                      ; Set width for tabs
  use-package-always-ensure t                      ; Avoid the :ensure keyword for each package
  user-full-name "chris etheridge"                 ; Set the full name of the current user
  user-mail-address "chrismetheridge@gmail.com"    ; Set the email address of the current user
+ ffap-machine-p-known  'reject ; don't try ping domains
+ delete-by-moving-to-trash t ; delete by moving to trash
+ show-trailing-whitespace t ; always show trailing whitespace
  vc-follow-symlinks t)                            ; Always follow the symlinks
 (cd "~/")                                         ; Move to the user directory
 (column-number-mode 1)                            ; Show the column number
@@ -83,6 +88,7 @@ Default settings for Emacs.
 (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
 (show-paren-mode 1)                               ; Show the parent
 (delete-selection-mode)                           ; Replace selection on paste
+(global-subword-mode 1) ; Move through camel case words
 
 #+END_SRC
 
