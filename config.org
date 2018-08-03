@@ -1,6 +1,6 @@
 #+Title: Emacs Configuration
-* init
-** package management
+* Init
+** Package management
 
 Use =use-package= for package management.
 
@@ -8,10 +8,10 @@ Use =use-package= for package management.
 
 (setq package-archives '(("gnu" . "https:/
   :delight/elpa.gnu.org/packages/")
-			 ("melpa-stable" . "https://stable.melpa.org/packages/")
-			 ("melpa" .
-			  normal-top-level() "https://melpa.org/packages/")
-			 ("org" . "https://orgmode.org/elpa/")))
+             ("melpa-stable" . "https://stable.melpa.org/packages/")
+             ("melpa" .
+              normal-top-level() "https://melpa.org/packages/")
+             ("org" . "https://orgmode.org/elpa/")))
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -42,8 +42,9 @@ Some package authors like to break things with new releases.
 
 #+END_SRC
 
-* base
-** general
+
+* Base
+** General
 
 I work in UTF-8.
 
@@ -93,7 +94,7 @@ Disable that annoying bell sound.
 
 #+END_SRC
 
-** saving / backups
+** Saving / backups
 
 Use saveplace to save place in file after closing.
 
@@ -110,11 +111,11 @@ Clean whitespace upon saving, and disable backups.
 #+BEGIN_SRC emacs-lisp :tangle yes
 
 (setq-default backup-inhibited t)
-(add-hook 'before-save-hook 'delete-trailing-whitespace) 
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 #+END_SRC
 
-** env path
+** Environment
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
@@ -123,7 +124,7 @@ Clean whitespace upon saving, and disable backups.
 
 #+END_SRC
 
-** emacs
+** Emacs
 
 Better M-x menu.
 
@@ -143,7 +144,7 @@ Better buffer navigation and manipulation.
 
 #+END_SRC
 
-** git
+** Git
 
 Magit for git management.
 
@@ -167,9 +168,7 @@ https://github.com/syohex/emacs-git-gutter-fringe
 
 #+END_SRC
 
-
-* UI customizations
-** custom.el
+** Customizations
 Avoid appending UI customizations to =init.el=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -180,7 +179,9 @@ Avoid appending UI customizations to =init.el=.
 
 #+END_SRC
 
-** look and feel
+
+* UI customizations
+** Look and feel
 *** Font and theme.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -197,7 +198,7 @@ Avoid appending UI customizations to =init.el=.
 
 Add line, column, and file size to modeline.
 
-#+BEGIN_SRC 
+#+BEGIN_SRC
 
 (line-number-mode t)
 (column-number-mode t)
@@ -240,8 +241,8 @@ Smooth scrolling.
 
 #+END_SRC
 
-** heads up
-   
+** Heads up
+
 Ivy, Swiper, and Counsel for command completion UI (like Helm)
 https://github.com/abo-abo/swiper
 
@@ -283,9 +284,9 @@ https://github.com/abo-abo/swiper
 
 #+END_SRC
 
-** start page
+** Start page
 
-Use a dashboard-like start page. 
+Use a dashboard-like start page.
 https://github.com/rakanalh/emacs-dashboard
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -301,23 +302,23 @@ https://github.com/rakanalh/emacs-dashboard
   :init
   (add-hook 'after-init-hook 'dashboard-refresh-buffer)
   (add-hook 'dashboard-mode-hook 'my/dashboard-banner)
-  :custom 
+  :custom
   (dashboard-startup-banner 'logo)
-  :config 
+  :config
   (setq dashboard-items '((recents  . 5)
-			  (bookmarks . 5)
-			  (projects . 5)
-			  (agenda . 5)
-			  (registers . 5)))
+              (bookmarks . 5)
+              (projects . 5)
+              (agenda . 5)
+              (registers . 5)))
   (dashboard-setup-startup-hook))
 
 #+END_SRC
 
 
-* development
-** general
-*** editing
-**** cursors
+* Development
+** General
+*** Editing
+**** Cursors
 
 Use iedit for multiple cursor editing.
 
@@ -327,8 +328,7 @@ Use iedit for multiple cursor editing.
 
 #+END_SRC
 
-
-**** undo
+**** Undo
 
 Undo tree
 
@@ -344,7 +344,7 @@ Undo tree
 
 #+END_SRC
 
-**** keys
+**** Keybindings
 
 Which key to show keybindings
 
@@ -356,7 +356,7 @@ Which key to show keybindings
 
 #+END_SRC
 
-*** text
+*** Text
 Aggresively indent whilst typing.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -365,7 +365,7 @@ Aggresively indent whilst typing.
   :delight
   :defer 2
   :hook ((emacs-lisp-mode . aggressive-indent-mode)
-	 (clojure-mode . aggressive-indent-mode))
+     (clojure-mode . aggressive-indent-mode))
   :custom (aggressive-indent-comments-too)
   :config
   (unbind-key "C-c C-q" aggressive-indent-mode-map))
@@ -382,7 +382,7 @@ Highlight color values as their color
 
 #+END_SRC
 
-*** auto complete
+*** Auto complete
 
 Use company for auto completion.
 
@@ -401,7 +401,7 @@ Use company for auto completion.
 
 #+END_SRC
 
-*** projects
+*** Project management
 
 Use Projectile for project management.
 
@@ -434,7 +434,7 @@ Use neotree for visual file navigation.
 
 #+END_SRC
 
-*** linting
+*** Linting
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
@@ -495,8 +495,8 @@ Use neotree for visual file navigation.
 
 #+END_SRC
 
-** languages
-*** emacs lisp
+
+*** Emacs lisp
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
@@ -604,7 +604,7 @@ https://github.com/clojure-emacs/clj-refactor.el
 #+END_SRC
 
 
-* init.el customization
+* Meta
 ** general
 *** compile on change
 
@@ -628,33 +628,33 @@ Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec9
 (defun my/config-updated ()
   "Checks if the configuration file has been updated since the last time."
   (time-less-p *config-last-change*
-	       (nth 5 (file-attributes *config-file*))))
+           (nth 5 (file-attributes *config-file*))))
 
 (defun my/config-tangle ()
   "Tangles the org file asynchronously."
   (when (my/config-updated)
     (setq *config-last-change*
-	  (nth 5 (file-attributes *config-file*)))
+      (nth 5 (file-attributes *config-file*)))
     (my/async-babel-tangle *config-file*)))
 
 (defun my/async-babel-tangle (org-file)
   "Tangles the org file asynchronously."
   (let ((init-tangle-start-time (current-time))
-	(file (buffer-file-name))
-	(async-quiet-switch "-q"))
+    (file (buffer-file-name))
+    (async-quiet-switch "-q"))
     (async-start
      `(lambda ()
-	(require 'org)
-	(org-babel-tangle-file ,org-file)
+    (require 'org)
+    (org-babel-tangle-file ,org-file)
         (byte-compile-file (concat emacs-user-directory "init.el"))))
     (unless *show-async-tangle-results*
       `(lambda (result)
-	 (if result
-	     (message "SUCCESS: %s successfully tangled (%.2fs)."
-		      ,org-file
-		      (float-time (time-subtract (current-time)
-						 ',init-tangle-start-time)))
-	   (message "ERROR: %s as tangle failed." ,org-file))))))
+     (if result
+         (message "SUCCESS: %s successfully tangled (%.2fs)."
+              ,org-file
+              (float-time (time-subtract (current-time)
+                         ',init-tangle-start-time)))
+       (message "ERROR: %s as tangle failed." ,org-file))))))
 
 #+END_SRC
 
@@ -672,8 +672,8 @@ Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec9
   :ensure org-plus-contrib
   :hook
   ((before-save . (lambda ()
-		    (interactive)
-		    (org-table-recalculate-buffer-tables)))
+            (interactive)
+            (org-table-recalculate-buffer-tables)))
    (after-save . my/config-tangle))
   :config
   (setq org-src-fontify-natively t
@@ -684,15 +684,15 @@ Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec9
 (use-package org-indent :after org :ensure nil :diminish)
 
 #+END_SRC
- 
+
 package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-			 ("melpa-stable" . "https://stable.melpa.org/packages/")
-			 ("melpa" . "https://melpa.org/packages/")
-			 ("org" . "https://orgmode.org/elpa/")))
+("melpa-stable" . "https://stable.melpa.org/packages/")
+("melpa" . "https://melpa.org/packages/")
+("org" . "https://orgmode.org/elpa/")))
 
 (unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+(package-refresh-contents)
+(package-install 'use-package))
 
 (use-package delight :ensure t)
 (use-package diminish :ensure t)
