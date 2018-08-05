@@ -62,6 +62,21 @@ Clean whitespace upon saving, and disable backups.
 
 ** Emacs
 
+Better GC values.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (setq gc-cons-threshold 10000000)
+
+                                          ; restore after startup
+  (add-hook 'after-init-hook
+            (lambda ()
+              (setq gc-cons-threshold 1000000)
+              (message "gc-cons-threshold restored to %S"
+                       gc-cons-threshold)))
+
+#+END_SRC
+
 Better M-x menu.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -187,7 +202,6 @@ Default settings for Emacs.
   (global-subword-mode 1) ; Move through camel case words
   (electric-pair-mode 1) ; match parenthesis
   (global-auto-revert-mode 1) ; refresh buffers
-
 
 #+END_SRC
 
@@ -338,7 +352,7 @@ Use telephone line for the modeline.
           telephone-line-secondary-left-separator 'telephone-line-flat-left
           telephone-line-primary-right-separator 'telephone-line-flat-right
           telephone-line-secondary-right-separator 'telephone-line-flat-right)
-    (setq telephone-line-height 24
+    (setq telephone-line-height 18
           telephone-line-evil-use-short-tag t)
     :custom
     (telephone-line-mode 1))
@@ -937,6 +951,8 @@ Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec9
      setq org-startup-truncated nil
      setq org-export-with-smart-quotes nil
      org-replace-disputed-keys t)
+    (add-to-list 'org-structure-template-alist
+                 '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
     (use-package org-bullets
       :defer t
       :init
