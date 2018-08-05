@@ -1,5 +1,5 @@
 #+Title: Emacs Configuration
-* Init
+* Initialization
 ** Package management
 
 Use =use-package= for package management.
@@ -22,25 +22,116 @@ Use =use-package= for package management.
 
 #+END_SRC
 
-Always =:ensure= packages.
+Disable that annoying bell sound.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
-  (setq use-package-always-ensure t)
+  (setq ring-bell-function (lambda () (message "*beep*")))
 
 #+END_SRC
 
-Some package authors like to break things with new releases.
+** Saving / backups
+
+Use saveplace to save place in file after closing.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
-  (setq package-pinned-packages
-        '(
-          (cider            . "melpa-stable")
-          ))
+  (use-package saveplace
+    :config
+    (setq save-place-file (concat user-emacs-directory "places")))
 
 #+END_SRC
 
+Clean whitespace upon saving, and disable backups.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (setq-default backup-inhibited t)
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+#+END_SRC
+
+** Environment
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+  (add-to-list 'exec-path "/usr/local/bin")
+
+#+END_SRC
+
+** Emacs
+
+Better M-x menu.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (use-package smex)
+
+#+END_SRC
+
+Better buffer navigation and manipulation. Replace default buffer UI with ibuffer.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (use-package ibuffer
+    :defer t
+    :bind ("C-x C-b" . ibuffer)
+    :custom
+    (defalias 'list-buffers 'ibuffer))
+
+#+END_SRC
+
+** Git
+
+Magit for git management.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (use-package magit
+    :defer t
+    :bind ("C-c g" . magit-status)
+    :delight
+    (magit-autro-revert-mode)
+    (auto-revert-mode))
+
+#+END_SRC
+
+Show Git changes in the fringe of Emacs.
+https://github.com/syohex/emacs-git-gutter-fringe
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (use-package git-gutter-fringe
+    :defer t
+    :custom
+    (git-gutter-mode))
+
+#+END_SRC
+
+Show historical git versions of files.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (use-package git-timemachine
+    :config
+    (setq git-timemachine-abbreviation-length 6))
+
+  (use-package evil-leader)
+  (use-package evil-magit)
+
+#+END_SRC
+
+** Customizations
+Avoid appending UI customizations to =init.el=.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (setq-default custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (when (file-exists-p custom-file)
+    (load custom-file t))
+
+#+END_SRC
 
 * Base
 ** General
@@ -69,7 +160,7 @@ Default settings for Emacs.
    inhibit-startup-screen t                         ; Disable start-up screen
    initial-scratch-message ""                       ; Empty the initial *scratch* buffer
    load-prefer-newer t                              ; Prefers the newest version of a file
-   scroll-margin 8 ;  smooth scroll
+   scroll-margin 8                                  ;  smooth scroll
    redisplay-dont-pause t
    scroll-preserve-screen-position 1
    scroll-conservatively 1000
@@ -79,11 +170,13 @@ Default settings for Emacs.
    use-package-always-ensure t                      ; Avoid the :ensure keyword for each package
    user-full-name "chris etheridge"                 ; Set the full name of the current user
    user-mail-address "chrismetheridge@gmail.com"    ; Set the email address of the current user
-   ffap-machine-p-known  'reject ; don't try ping domains
-   delete-by-moving-to-trash t ; delete by moving to trash
-   show-trailing-whitespace t ; always show trailing whitespace
+   ffap-machine-p-known  'reject                    ; don't try ping domains
+   delete-by-moving-to-trash                        ; delete by moving to trash
+   show-trailing-whitespace t                       ; always show trailing whitespace
    vc-follow-symlinks t
-   disabled-command-function nil)                            ; Always follow the symlinks
+   disabled-command-function nil
+   indent-tabs-mode nil
+   tab-always-indent 'complete)                            ; Always follow the symlinks
   (cd "~/")                                         ; Move to the user directory
   (column-number-mode 1)                            ; Show the column number
   (global-linum-mode 1)                             ; Enable line numbers
@@ -93,6 +186,7 @@ Default settings for Emacs.
   (delete-selection-mode 1)                           ; Replace selection on paste
   (global-subword-mode 1) ; Move through camel case words
   (electric-pair-mode 1) ; match parenthesis
+  (global-auto-revert-mode 1) ; refresh buffers
 
 
 #+END_SRC
@@ -208,29 +302,8 @@ Avoid appending UI customizations to =init.el=.
 
 #+END_SRC
 
-
 * UI customizations
 ** Look and feel
-*** Tabs
-
-Use tabbar to enable a tab-like interface.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (use-package tabbar
-    :ensure t
-    :bind (("C-M-<left>" . tabbar-backward-tab)
-           ("C-M-<right>" . tabbar-forward-tab))
-    :config (tabbar-mode 1))
-
-  (use-package tabbar-ruler
-    :ensure t
-    :after (tabbar)
-    :config (progn
-              (setq tabbar-ruler-global-tabbar t)))
-
-#+END_SRC
-
 *** Font and theme
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -502,7 +575,7 @@ Use company for auto completion.
 
     (use-package company-quickhelp
       :config
-      (setq company-quickhelp-delay 1)
+      (setq company-quickhelp-delay nil)
       (company-quickhelp-mode 1))
 
     :custom
@@ -751,13 +824,6 @@ Use flycheck-clojure for linting.
 
 #+END_SRC
 
-kk*** Clojure: unsorted
-
-#+BEGIN_SRC emacs-lisp tangle :yes
-
-
-
-#+END_SRC
 *** Css / html
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -791,7 +857,6 @@ Use flycheck-clojure for linting.
            "\\.md\\'"))
 
 #+END_SRC
-
 
 * Meta
 ** General
@@ -834,8 +899,7 @@ Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec9
       (async-start
        `(lambda ()
           (require 'org)
-          (org-babel-tangle-file ,org-file)
-          (byte-compile-file (concat emacs-user-directory "init.el"))))
+          (org-babel-tangle-file ,org-file)))
       (unless *show-async-tangle-results*
         `(lambda (result)
            (if result
@@ -892,10 +956,19 @@ Always =:ensure= packages.
 
 #+END_SRC
 
-Fancier org bullets.
+Always =:ensure= packages.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
+  (setq use-package-always-ensure t)
 
+#+END_SRC
+
+Some package authors like to break things with new releases.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (setq package-pinned-packages
+        '((cider . "melpa-stable")))
 
 #+END_SRC
