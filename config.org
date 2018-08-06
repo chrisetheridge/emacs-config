@@ -30,36 +30,6 @@ Disable that annoying bell sound.
 
 #+END_SRC
 
-** Saving / backups
-
-Use saveplace to save place in file after closing.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (use-package saveplace
-    :config
-    (setq save-place-file (concat user-emacs-directory "places")))
-
-#+END_SRC
-
-Clean whitespace upon saving, and disable backups.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (setq-default backup-inhibited t)
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-#+END_SRC
-
-** Environment
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
-  (add-to-list 'exec-path "/usr/local/bin")
-
-#+END_SRC
-
 ** Emacs
 
 Better GC values.
