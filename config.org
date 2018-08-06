@@ -186,7 +186,7 @@ Default settings for Emacs.
    user-full-name "chris etheridge"                 ; Set the full name of the current user
    user-mail-address "chrismetheridge@gmail.com"    ; Set the email address of the current user
    ffap-machine-p-known  'reject                    ; don't try ping domains
-   delete-by-moving-to-trash                        ; delete by moving to trash
+   delete-by-moving-to-trash t                        ; delete by moving to trash
    show-trailing-whitespace t                       ; always show trailing whitespace
    vc-follow-symlinks t
    disabled-command-function nil
