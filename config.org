@@ -67,46 +67,6 @@ Better buffer navigation and manipulation. Replace default buffer UI with ibuffe
 
 #+END_SRC
 
-** Git
-
-Magit for git management.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (use-package magit
-    :defer t
-    :bind ("C-c g" . magit-status)
-    :delight
-    (magit-autro-revert-mode)
-    (auto-revert-mode))
-
-#+END_SRC
-
-Show Git changes in the fringe of Emacs.
-https://github.com/syohex/emacs-git-gutter-fringe
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (use-package git-gutter-fringe
-    :defer t
-    :custom
-    (git-gutter-mode))
-
-#+END_SRC
-
-Show historical git versions of files.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (use-package git-timemachine
-    :config
-    (setq git-timemachine-abbreviation-length 6))
-
-  (use-package evil-leader)
-  (use-package evil-magit)
-
-#+END_SRC
-
 ** Customizations
 Avoid appending UI customizations to =init.el=.
 
@@ -182,6 +142,24 @@ Disable that annoying bell sound.
   (setq ring-bell-function (lambda () (message "*beep*")))
 
 #+END_SRC
+
+Always =:ensure= packages.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (setq use-package-always-ensure t)
+
+#+END_SRC
+
+Some package authors like to break things with new releases.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (setq package-pinned-packages
+        '((cider . "melpa-stable")))
+
+#+END_SRC
+
 
 ** Saving / backups
 
@@ -931,30 +909,5 @@ Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec9
                   (org-bullets-mode t)))))
 
   (use-package org-indent :after org :ensure nil :diminish)
-
-#+END_SRC
-
-Always =:ensure= packages.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (setq use-package-always-ensure t)
-
-#+END_SRC
-
-Always =:ensure= packages.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (setq use-package-always-ensure t)
-
-#+END_SRC
-
-Some package authors like to break things with new releases.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (setq package-pinned-packages
-        '((cider . "melpa-stable")))
 
 #+END_SRC
