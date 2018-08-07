@@ -881,13 +881,12 @@ Use flycheck-clojure for linting.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
-(defun find-config ()
-  "Edit config.org"
-  (interactive)
-  (find-file "~/dotfiles/config.org"))
+  (defun find-config ()
+    "Edit config.org"
+    (interactive)
+    (find-file "~/.emacs.d/config.org"))
 
-(global-set-key (kbd "C-c I") 'find-config)
-
+  (global-set-key (kbd "C-c I") 'find-config)
 
 #+END_SRC
 
