@@ -191,6 +191,16 @@ Clean whitespace upon saving, and disable backups.
 
 #+END_SRC
 
+Make Emacs read vars from the environment.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (use-package exec-path-from-shell
+    :config
+    (exec-path-from-shell-initialize))
+
+#+END_SRC
+
 ** Emacs
 
 Better M-x menu.
@@ -418,6 +428,15 @@ Use winner to move around windows.
 
 #+END_SRC
 
+Ace window to change windows
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package ace-window
+    :ensure t)
+
+#+END_SRC
+
 * Development
 ** General
 *** Editing
@@ -636,6 +655,39 @@ Use perspective for different project contexts.
 
 #+END_SRC
 
+Fly spell for spelling.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+
+  (use-package flyspell
+    :defer 1
+    :custom
+    (flyspell-abbrev-p t)
+    (flyspell-issue-message-flag nil)
+    (flyspell-issue-welcome-flag nil)
+    (flyspell-mode 1))
+
+  (use-package flyspell-correct-ivy
+    :after flyspell
+    :bind (:map flyspell-mode-map
+                ("C-;" . flyspell-correct-word-generic))
+    :custom (flyspell-correct-interface 'flyspell-correct-ivy))
+
+  (use-package ispell
+    :custom
+    (ispell-silently-savep t))
+
+#+END_SRC
+
+Set aspell path.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (setq ispell-program-name "/usr/local/bin/aspell")
+
+#+END_SRC
+
 *** Emacs
 **** Package management
 
@@ -651,6 +703,24 @@ Use perspective for different project contexts.
     :config
     (paradox-enable)
     (remove-hook 'paradox-after-execute-functions #'paradox--report-buffer-print))
+
+#+END_SRC
+
+*** Snippets
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (use-package yasnippet
+    :ensure t
+    :config (progn (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+                   (add-hook 'term-mode-hook (lambda() (setq yas-dont-activate t)))
+                   (yas-global-mode 1)))
+
+  (use-package yasnippet-snippets
+    :after yasnippet
+    :config (yasnippet-snippets-initialize))
+
+  (use-package ivy-yasnippet :after yasnippet)
 
 #+END_SRC
 
@@ -695,7 +765,6 @@ Show different colors between delimiter levels.
     :hook (prog-mode . rainbow-delimiters-mode))
 
 #+END_SRC
-
 
 *** Emacs lisp
 
@@ -822,6 +891,20 @@ Use flycheck-clojure for linting.
 
 * Meta
 ** General
+*** Config file
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+(defun find-config ()
+  "Edit config.org"
+  (interactive)
+  (find-file "~/dotfiles/config.org"))
+
+(global-set-key (kbd "C-c I") 'find-config)
+
+
+#+END_SRC
+
 *** Compile on change
 
 Define a function that asynchrously compiles the config.org file,
@@ -896,8 +979,8 @@ Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec9
      org-src-tab-acts-natively t
      org-confirm-babel-evaluate nil
      org-ellipsis " ... "
-     setq org-startup-truncated nil
-     setq org-export-with-smart-quotes nil
+     org-startup-truncated nil
+     org-export-with-smart-quotes nil
      org-replace-disputed-keys t)
     (add-to-list 'org-structure-template-alist
                  '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
