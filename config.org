@@ -499,20 +499,6 @@ Visually browse the kill ring.
 #+END_SRC
 
 *** Text
-Aggresively indent whilst typing.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (use-package aggressive-indent
-    :delight
-    :defer 2
-    :hook ((emacs-lisp-mode . aggressive-indent-mode)
-           (clojure-mode . aggressive-indent-mode))
-    :custom (aggressive-indent-comments-too)
-    :config
-    (unbind-key "C-c C-q" aggressive-indent-mode-map))
-
-#+END_SRC
 
 Highlight color values as their color
 
