@@ -310,7 +310,7 @@ Use telephone line for the modeline.
           telephone-line-secondary-left-separator 'telephone-line-flat-left
           telephone-line-primary-right-separator 'telephone-line-flat-right
           telephone-line-secondary-right-separator 'telephone-line-flat-right)
-    (setq telephone-line-height 18
+    (setq telephone-line-height 16
           telephone-line-evil-use-short-tag t)
     :custom
     (telephone-line-mode 1))
@@ -362,7 +362,8 @@ https://github.com/abo-abo/swiper
     :custom
     (ivy-count-format "(%d/%d) ")
     (ivy-use-virtual-buffers t)
-    :config (ivy-mode))
+    :config (ivy-mode)
+    (setq ivy-initial-inputs-alist nil))
 
   (use-package ivy-pass
     :after ivy
@@ -380,8 +381,7 @@ https://github.com/abo-abo/swiper
 
   (use-package swiper
     :after ivy
-    :bind (("C-s" . swiper)
-           ("C-r" . swiper)))
+    :bind (("C-s" . swiper)))
 
 
 #+END_SRC
