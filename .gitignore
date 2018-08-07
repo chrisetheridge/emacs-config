@@ -8,3 +8,5 @@ recentf
 projectile-bookmarks.eld
 smex-items
 .projectile*
+config.emacs*
+cider-history
