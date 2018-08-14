@@ -1,5 +1,4 @@
 
-
 #+Title: Emacs Configuration
 * Initialization
 ** Package management
@@ -813,9 +812,7 @@ https://github.com/clojure-emacs/cider
      cider-font-lock-reader-conditionals nil           ; Disable font-locking for symbols in cljc files
      cider-repl-wrap-history t
      cider-repl-history-size 3000
-     nrepl-hide-special-buffers t)
-    (eval-after-load 'flycheck '(flycheck-clojure-setup)
-                     ))
+     nrepl-hide-special-buffers t))
 
 #+END_SRC
 
@@ -834,11 +831,11 @@ https://github.com/clojure-emacs/clj-refactor.el
 
 #+END_SRC
 
-Use flycheck-clojure for linting.
+Use flycheck-joker for linting.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
-  (use-package flycheck-clojure
+  (use-package flycheck-joker
     :defer t)
 
 #+END_SRC
@@ -988,10 +985,10 @@ Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec9
 
 
   (add-hook 'after-make-frame-functions
-                (lambda (frame)
-                  (set-frame-parameter frame 'menu-bar-lines
-                                       (if (display-graphic-p frame)
-                                           1 0))))
+            (lambda (frame)
+              (set-frame-parameter frame 'menu-bar-lines
+                                   (if (display-graphic-p frame)
+                                       1 0))))
 
   (let ((no-border '(internal-border-width . 0)))
     (add-to-list 'default-frame-alist no-border)
