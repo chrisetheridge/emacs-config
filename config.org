@@ -768,7 +768,6 @@ Show different colors between delimiter levels.
 #+BEGIN_SRC emacs-lisp :tangle yes
 
   (use-package clojure-mode
-    :mode "\\.clj\\'"
     :config
     (setq clojure-align-forms-automatically t)
     (define-clojure-indent
