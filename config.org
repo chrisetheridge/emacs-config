@@ -353,7 +353,8 @@ https://github.com/abo-abo/swiper
   (use-package counsel
     :after ivy
     :diminish
-    :config (counsel-mode))
+    :config (counsel-mode)
+    :bind (("s-g" . counsel-ag)))
 
   (use-package ivy
     :defer 0.1
