@@ -794,6 +794,8 @@ https://github.com/clojure-emacs/cider
     :custom
     (cider-auto-test-mode 1)
     (global-set-key (kbd "C-c r") 'cider-repl-reset)
+    :bind
+    (("C-c M-s" . cider-connect-clojurescript))
     :hook
     (cider-mode-hook . eldoc-mode)
     :config
