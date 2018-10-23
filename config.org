@@ -161,7 +161,6 @@ Some package authors like to break things with new releases.
 
 #+END_SRC
 
-
 ** Saving / backups
 
 Use saveplace to save place in file after closing.
@@ -873,6 +872,22 @@ Use flycheck-joker for linting.
            "README\\'"
            "\\.markdown\\'"
            "\\.md\\'"))
+
+#+END_SRC
+
+*** Rust
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (use-package rust-mode
+    :mode "\\.rs\\'"
+    :hook
+    :init
+    (setq rust-format-on-save t))
+
+  (use-package racer
+    :hook
+    ((rust-mode . racer-mode)))
 
 #+END_SRC
 
