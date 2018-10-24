@@ -711,6 +711,12 @@ Set aspell path.
 
 #+END_SRC
 
+** Tracking
+*** Wakatime
+
+(use-package wakatime-mode
+:init (global-wakatime-mode))
+
 ** Languages
 *** Lisps
 
