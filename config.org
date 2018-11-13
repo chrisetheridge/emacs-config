@@ -714,8 +714,13 @@ Set aspell path.
 ** Tracking
 *** Wakatime
 
-(use-package wakatime-mode
-:init (global-wakatime-mode))
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (use-package wakatime-mode
+    :ensure t
+    :init (global-wakatime-mode))
+
+#+END_SRC
 
 ** Languages
 *** Lisps
@@ -842,8 +847,7 @@ Use flycheck-joker for linting.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
-  (use-package flycheck-joker
-    :defer t)
+  (use-package flycheck-joker)
 
 #+END_SRC
 
