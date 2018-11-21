@@ -17,6 +17,8 @@ Use =use-package= for package management.
     (package-refresh-contents)
     (package-install 'use-package))
 
+  (setq use-package-always-ensure t)
+
   (use-package delight :ensure t)
   (use-package diminish :ensure t)
   (use-package use-package-ensure-system-package :ensure t)
@@ -462,7 +464,6 @@ Undo tree
     :bind
     ("C--" . undo-tree-redo)
     :init
-    :init
     (progn
       (global-undo-tree-mode 1)
       (defalias 'redo 'undo-tree-redo)
@@ -885,9 +886,6 @@ Use flycheck-joker for linting.
 
 #+END_SRC
 
-*** Rust
-
-#+BEGIN_SRC emacs-lisp :tangle yes
 
   (use-package rust-mode
     :mode "\\.rs\\'"
