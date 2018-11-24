@@ -230,6 +230,7 @@ Track key frequency.
 #+BEGIN_SRC emacs-lisp :tangle yes
 
   (use-package keyfreq
+    :bind ("M-f" . keyfreq-show)
     :custom
     (keyfreq-mode 1)
     (keyfreq-autosave-mode 1))
@@ -894,19 +895,6 @@ Use flycheck-joker for linting.
            "README\\'"
            "\\.markdown\\'"
            "\\.md\\'"))
-
-#+END_SRC
-
-
-  (use-package rust-mode
-    :mode "\\.rs\\'"
-    :hook
-    :init
-    (setq rust-format-on-save t))
-
-  (use-package racer
-    :hook
-    ((rust-mode . racer-mode)))
 
 #+END_SRC
 
