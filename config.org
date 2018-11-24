@@ -225,6 +225,18 @@ Better buffer navigation and manipulation. Replace default buffer UI with ibuffe
 
 #+END_SRC
 
+Track key frequency.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (use-package keyfreq
+    :init
+    (progn
+      (keyfreq-mode)
+      (keyfreq-autosave-mode)))
+
+#+END_SRC
+
 ** Git
 
 Magit for git management.
