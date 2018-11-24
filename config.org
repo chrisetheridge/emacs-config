@@ -230,10 +230,9 @@ Track key frequency.
 #+BEGIN_SRC emacs-lisp :tangle yes
 
   (use-package keyfreq
-    :init
-    (progn
-      (keyfreq-mode)
-      (keyfreq-autosave-mode)))
+    :custom
+    (keyfreq-mode 1)
+    (keyfreq-autosave-mode 1))
 
 #+END_SRC
 
