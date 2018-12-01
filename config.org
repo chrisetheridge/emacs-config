@@ -296,9 +296,14 @@ Avoid appending UI customizations to =init.el=.
 
   (set-frame-font "Fira Code 12" nil t)
 
-  (use-package nord-theme
-    :config
-    (setq nord-comment-brightness 15))
+  ;; (use-package nord-theme
+  ;;   :config
+  ;;   (setq nord-comment-brightness 15))
+
+  (use-package doom-themes
+    :ensure t)
+
+  (load-theme 'doom-vibrant t)
 
 #+END_SRC
 
@@ -316,18 +321,40 @@ Add line, column, and file size to modeline.
 
 Use telephone line for the modeline.
 
+# #+BEGIN_SRC emacs-lisp :tangle yes
+
+#   (use-package telephone-line
+#     :config
+#     (setq telephone-line-primary-left-separator 'telephone-line-flat-left
+#           telephone-line-secondary-left-separator 'telephone-line-flat-left
+#           telephone-line-primary-right-separator 'telephone-line-flat-right
+#           telephone-line-secondary-right-separator 'telephone-line-flat-right)
+#     (setq telephone-line-height 16
+#           telephone-line-evil-use-short-tag t)
+#     :custom
+#     (telephone-line-mode 1))
+
+# #+END_SRC
+
 #+BEGIN_SRC emacs-lisp :tangle yes
 
-  (use-package telephone-line
-    :config
-    (setq telephone-line-primary-left-separator 'telephone-line-flat-left
-          telephone-line-secondary-left-separator 'telephone-line-flat-left
-          telephone-line-primary-right-separator 'telephone-line-flat-right
-          telephone-line-secondary-right-separator 'telephone-line-flat-right)
-    (setq telephone-line-height 16
-          telephone-line-evil-use-short-tag t)
-    :custom
-    (telephone-line-mode 1))
+  (use-package doom-modeline
+    :ensure t
+    :defer t
+    :hook (after-init . doom-modeline-init))
+
+  ;; How tall the mode-line should be (only respected in GUI Emacs).
+  (setq doom-modeline-height 30)
+
+  ;; How wide the mode-line bar should be (only respected in GUI Emacs).
+  (setq doom-modeline-bar-width 3)
+
+  ;; Whether show `all-the-icons' or not (if nil nothing will be showed).
+  ;; The icons may not be showed correctly on Windows. Disable to make it work.
+  (setq doom-modeline-icon nil)
+
+  ;; Whether show the icon for major mode. It should respect `doom-modeline-icon'.
+  (setq doom-modeline-major-mode-icon nil)
 
 #+END_SRC
 
