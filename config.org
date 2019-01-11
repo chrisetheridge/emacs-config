@@ -295,7 +295,7 @@ Avoid appending UI customizations to =init.el=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
-  (set-frame-font "Fira Code 13" nil t)
+  (set-frame-font "Fira Code 12" nil t)
 
   (use-package doom-themes
     :ensure t)
@@ -352,6 +352,16 @@ Use telephone line for the modeline.
 
   ;; Whether show the icon for major mode. It should respect `doom-modeline-icon'.
   (setq doom-modeline-major-mode-icon nil)
+
+#+END_SRC
+
+*** Highlight
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+  (use-package hl-todo
+    :ensure t
+    :hook (prog-mode . hl-todo-mode))
 
 #+END_SRC
 
