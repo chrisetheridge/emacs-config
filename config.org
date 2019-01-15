@@ -870,7 +870,7 @@ https://github.com/clojure-emacs/cider
      cider-repl-history-size 3000
      nrepl-hide-special-buffers t
 
-     cider-pprint-fn "zprint" ; use zprint to pprint
+     ; cider-pprint-fn "zprint.core/zprint" ; use zprint to pprint - broken for now
      cider-stacktrace-default-filters '(tooling dup) ; don't show tooling and duplicate entries in stacktraces
      cider-eval-result-prefix "=> " ; change eval prefix string
      cider-eldoc-display-context-dependent-info t ; try to show context-aware docs
