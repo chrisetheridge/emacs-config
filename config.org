@@ -39,14 +39,14 @@ Better GC values.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
-    (setq gc-cons-threshold 10000000)
+  (setq gc-cons-threshold 10000000)
 
-    (let ((normal-gc-cons-threshold (* 20 1024 1024))
-          (init-gc-cons-threshold (* 128 1024 1024)))
-      (setq gc-cons-threshold init-gc-cons-threshold)
-      (add-hook 'after-init-hook
-                (lambda ()
-                  (setq gc-cons-threshold normal-gc-cons-threshold))))
+  (let ((normal-gc-cons-threshold (* 20 1024 1024))
+        (init-gc-cons-threshold (* 128 1024 1024)))
+    (setq gc-cons-threshold init-gc-cons-threshold)
+    (add-hook 'after-init-hook
+              (lambda ()
+                (setq gc-cons-threshold normal-gc-cons-threshold))))
 
 #+END_SRC
 
@@ -868,7 +868,10 @@ https://github.com/clojure-emacs/cider
      cider-font-lock-reader-conditionals nil           ; Disable font-locking for symbols in cljc files
      cider-repl-wrap-history t
      cider-repl-history-size 3000
-     nrepl-hide-special-buffers t))
+     nrepl-hide-special-buffers t
+
+     cider-pprint-fn "zprint" ; use zprint to pprint
+     ))
 
 #+END_SRC
 
