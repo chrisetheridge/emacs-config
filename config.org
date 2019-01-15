@@ -872,7 +872,7 @@ https://github.com/clojure-emacs/cider
 
      cider-pprint-fn "zprint" ; use zprint to pprint
      cider-stacktrace-default-filters '(tooling dup) ; don't show tooling and duplicate entries in stacktraces
-     cider-eval-result-prefix " >>" ; change eval prefix string
+     cider-eval-result-prefix "=> " ; change eval prefix string
      cider-eldoc-display-context-dependent-info t ; try to show context-aware docs
      ))
 
