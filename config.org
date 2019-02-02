@@ -155,14 +155,6 @@ Always =:ensure= packages.
 
 #+END_SRC
 
-Some package authors like to break things with new releases.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (setq package-pinned-packages
-        '((cider . "melpa-stable")))
-
-#+END_SRC
 
 ** Saving / backups
 
@@ -295,7 +287,7 @@ Avoid appending UI customizations to =init.el=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
-  (set-frame-font "Fira Code 12" nil t)
+  (set-frame-font "Hack 12" nil t)
 
   (use-package doom-themes
     :ensure t)
@@ -849,16 +841,19 @@ https://github.com/clojure-emacs/cider
     (cider-auto-test-mode 1)
     (global-set-key (kbd "C-c r") 'cider-repl-reset)
     :bind
-    (("C-c M-s" . cider-connect-clojurescript))
+    (("C-c M-s" . cider-connect-clojurescript)
+     ("C-x C-r" . cider-inspect-last-result)
+     ("C-x C-s" . cider-inspect-last-sexp))
     :hook
     (cider-mode-hook . eldoc-mode)
     :config
     (setq
+     nrepl-log-messges t
      cider-use-fringe-indicators nil                   ;
      cider-prompt-for-symbol nil                       ; Don't prompt for symbol for cider doc
      cider-repl-pop-to-buffer-on-connect nil
      cider-repl-display-in-current-window t  ; open repl buffer in current window
-     cider-show-error-buffer nil             ; don't show error buffer automatically
+     cider-show-error-buffer t           ; don't show error buffer automatically
      cider-auto-select-error-buffer nil      ; don't switch to error buffer on error
      cider-save-file-on-load t               ; save file on prompt when evaling
      cider-repl-history-file (concat user-emacs-directory "cider-history")
@@ -868,13 +863,10 @@ https://github.com/clojure-emacs/cider
      cider-font-lock-reader-conditionals nil           ; Disable font-locking for symbols in cljc files
      cider-repl-wrap-history t
      cider-repl-history-size 3000
-     nrepl-hide-special-buffers t
-
-     ; cider-pprint-fn "zprint.core/zprint" ; use zprint to pprint - broken for now
-     cider-stacktrace-default-filters '(tooling dup) ; don't show tooling and duplicate entries in stacktraces
-     cider-eval-result-prefix "=> " ; change eval prefix string
      cider-eldoc-display-context-dependent-info t ; try to show context-aware docs
      ))
+
+  (use-package cider-eval-sexp-fu)
 
 #+END_SRC
 
