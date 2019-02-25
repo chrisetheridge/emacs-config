@@ -10,3 +10,4 @@ smex-items
 .projectile*
 config.emacs*
 cider-history
+transient/
