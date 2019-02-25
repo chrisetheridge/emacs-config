@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: auto requires
+# key: areq
+# --
+
+(:require [cognician.base.datomic :as datomic]
+            [cognician.base.coll :as coll]
+            [cognician.base.string :as string]
+            [datomic.api :as d]
+            [clojure.string :as str])
