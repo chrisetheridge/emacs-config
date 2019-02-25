@@ -286,12 +286,18 @@ Avoid appending UI customizations to =init.el=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
+  (use-package doom-themes
+    :ensure t
+    :config
+    (doom-themes-neotree-config))
+
+  (load-theme 'poet-monochrome t)
+
   (set-frame-font "Hack 12" nil t)
 
-  (use-package doom-themes
-    :ensure t)
-
-  (load-theme 'doom-sourcerer t)
+  (set-face-attribute 'default nil :family "Hack" :height 130)
+  (set-face-attribute 'fixed-pitch nil :family "Hack")
+  (set-face-attribute 'variable-pitch nil :family "Hack")
 
 #+END_SRC
 
@@ -364,7 +370,7 @@ Use telephone line for the modeline.
     (setq doom-modeline-major-mode-icon nil)
 
     ;; Whether display minor modes or not. Non-nil to display in mode-line.
-    (setq doom-modeline-minor-modes nil)
+    (setq doom-modeline-minor-modes nil))
 #+END_SRC
 
 *** Highlight
