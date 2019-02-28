@@ -295,7 +295,8 @@ Avoid appending UI customizations to =init.el=.
 
   (set-frame-font "Hack 12" nil t)
 
-  (set-face-attribute 'default nil :family "Hack" :height 130)
+  ;; override poet theme font settings
+  (set-face-attribute 'default nil :family "Hack" :height 120)
   (set-face-attribute 'fixed-pitch nil :family "Hack")
   (set-face-attribute 'variable-pitch nil :family "Hack")
 
