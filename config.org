@@ -849,6 +849,8 @@ Show different colors between delimiter levels.
       (GET 'defun)
       (POST 'defun)
       (context 'defun)
+      (tufte/p 'defun)
+      (tufte/profile 'defun)
       (cj/GET 'defun)
       (cj/POST 'defun )
       (cj/context 'defun))
