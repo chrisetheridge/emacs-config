@@ -788,16 +788,6 @@ Set aspell path.
 
 #+END_SRC
 
-** Tracking
-*** Wakatime
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (use-package wakatime-mode
-    :ensure t
-    :init (global-wakatime-mode))
-
-#+END_SRC
 
 ** Languages
 *** Lisps
