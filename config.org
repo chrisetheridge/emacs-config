@@ -847,6 +847,7 @@ Show different colors between delimiter levels.
 
   (use-package clojure-mode
     :config
+    (require 'flycheck-clj-kondo)
     (setq clojure-align-forms-automatically t)
     (define-clojure-indent
       ;; Compojure
@@ -869,7 +870,6 @@ https://github.com/clojure-emacs/cider
 #+BEGIN_SRC emacs-lisp :tangle yes
 
   (use-package cider
-    :pin melpa-stable
     :custom
     (cider-auto-test-mode 1)
     (global-set-key (kbd "C-c r") 'cider-repl-reset)
@@ -896,7 +896,6 @@ https://github.com/clojure-emacs/cider
      cider-font-lock-reader-conditionals nil           ; Disable font-locking for symbols in cljc files
      cider-repl-wrap-history t
      cider-repl-history-size 3000
-     cider-eldoc-display-context-dependent-info t ; try to show context-aware docs
      ))
 
   (use-package cider-eval-sexp-fu)
@@ -922,7 +921,10 @@ Use flycheck-joker for linting.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
-  (use-package flycheck-joker)
+  ;; (use-package flycheck-joker)
+
+  (use-package flycheck-clj-kondo
+  :ensure t)
 
 #+END_SRC
 
@@ -1054,6 +1056,7 @@ Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec9
      org-replace-disputed-keys t)
     (add-to-list 'org-structure-template-alist
                  '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
+
     (use-package org-bullets
       :defer t
       :init
