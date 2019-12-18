@@ -31,7 +31,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (rainbow-mode rainbow-delimiters org-plus-contrib undo-tree iedit yasnippet-snippets which-key wakatime-mode use-package persp-projectile ivy-yasnippet highlight-symbol flycheck diminish cider ag ace-window))))
+    (async ## rainbow-mode rainbow-delimiters org-plus-contrib undo-tree iedit yasnippet-snippets which-key wakatime-mode use-package persp-projectile ivy-yasnippet highlight-symbol flycheck diminish cider ag ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

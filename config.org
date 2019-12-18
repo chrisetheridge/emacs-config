@@ -167,12 +167,15 @@ Use saveplace to save place in file after closing.
 
 #+END_SRC
 
-Clean whitespace upon saving, and disable backups.
+Clean whitespace upon saving, and disable backups, change autosave file location.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
   (setq-default backup-inhibited t)
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+  (setq auto-save-file-name-transforms
+        `((".*" "~/.emacs-saves/" t)))
 
 #+END_SRC
 
@@ -286,11 +289,6 @@ Avoid appending UI customizations to =init.el=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 
-  (use-package doom-themes
-    :ensure t
-    :config
-    (doom-themes-neotree-config))
-
   (load-theme 'poet-monochrome t)
 
   (set-frame-font "Hack 12" nil t)
@@ -306,11 +304,11 @@ Avoid appending UI customizations to =init.el=.
 
 Add line, column, and file size to modeline.
 
-#+BEGIN_SRC
+#+BEGIN_SRC emacs-lisp :tangle yes
 
-(line-number-mode t)
-(column-number-mode t)
-(size-indication-mode t)
+  (line-number-mode t)
+  (column-number-mode t)
+  (size-indication-mode t)
 
 #+END_SRC
 
@@ -493,29 +491,6 @@ Use winner to move around windows.
 
 #+END_SRC
 
-Ace window to change windows
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (use-package ace-window
-    :ensure t)
-
-#+END_SRC
-
-WinMove to move between buffer windows
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (use-package windmove
-    :config
-    (windmove-default-keybindings 'meta))
-
-
-
-#+END_SRC
-
-
-
 * Development
 ** General
 *** Editing
@@ -678,14 +653,6 @@ Use Projectile for project management.
     (setq projectile-mode-line '(:eval (format " [%s] " (projectile-project-name))))
     (projectile-global-mode)
     :bind)
-
-#+END_SRC
-
-Use neotree for visual file navigation.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-
-  (use-package neotree)
 
 #+END_SRC
 
@@ -1008,6 +975,8 @@ Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec9
             (nth 5 (file-attributes *config-file*)))
       (my/async-babel-tangle *config-file*)))
 
+      (my/config-tangle)
+
   (defun my/async-babel-tangle (org-file)
     "Tangles the org file asynchronously."
     (let ((init-tangle-start-time (current-time))
@@ -1025,6 +994,7 @@ Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec9
                         (float-time (time-subtract (current-time)
                                                    ',init-tangle-start-time)))
              (message "ERROR: %s as tangle failed." ,org-file))))))
+
 
 #+END_SRC
 
@@ -1065,23 +1035,5 @@ Copied from from: https://raw.githubusercontent.com/rememberYou/.emacs.d/e96fec9
                   (org-bullets-mode t)))))
 
   (use-package org-indent :after org :ensure nil :diminish)
-
-#+END_SRC
-
-* Testing out
-
-#+BEGIN_SRC emacs-lisp
-
-
-  (add-hook 'after-make-frame-functions
-            (lambda (frame)
-              (set-frame-parameter frame 'menu-bar-lines
-                                   (if (display-graphic-p frame)
-                                       1 0))))
-
-  (let ((no-border '(internal-border-width . 0)))
-    (add-to-list 'default-frame-alist no-border)
-    (add-to-list 'initial-frame-alist no-border))
-
 
 #+END_SRC
